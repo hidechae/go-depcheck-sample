@@ -1,0 +1,40 @@
+ignorePatterns:
+  - "_test.go$"
+
+rules:
+  # module1 cannot depend on module2
+  - from: "^github.com/hidechae/go-depcheck-sample/src/module1.*$"
+    to:
+      - "^github.com/hidechae/go-depcheck-sample/src/module2.*$"
+    allowedDependencies:
+
+  # module2 cannot depend on module1
+  - from: "^github.com/hidechae/go-depcheck-sample/src/module2.*$"
+    to:
+      - "^github.com/hidechae/go-depcheck-sample/src/module1.*$"
+    allowedDependencies:
+      # module2 can depend on shared package in module1 exceptionally
+      - "^github.com/hidechae/go-depcheck-sample/src/module1/shared.*$"
+
+  # presentation cannot depend on infrastructure
+  - from: "^github.com/hidechae/go-depcheck-sample/src/.*/presentation.*$"
+    to:
+      - "^github.com/hidechae/go-depcheck-sample/src/.*/infrastructure.*$"
+
+  # usecase cannot depend on infrastructure and presentation
+  - from: "^github.com/hidechae/go-depcheck-sample/src/.*/usecase.*$"
+    to:
+      - "^github.com/hidechae/go-depcheck-sample/src/.*/infrastructure.*$"
+      - "^github.com/hidechae/go-depcheck-sample/src/.*/presentation.*$"
+
+  # domain cannot depend on infrastructure, presentation and usecase
+  - from: "^github.com/hidechae/go-depcheck-sample/src/.*/domain.*$"
+    to:
+      - "^github.com/hidechae/go-depcheck-sample/src/.*/infrastructure.*$"
+      - "^github.com/hidechae/go-depcheck-sample/src/.*/presentation.*$"
+      - "^github.com/hidechae/go-depcheck-sample/src/.*/usecase.*$"
+
+  # infrastructure cannot depend on presentation
+  - from: "^github.com/hidechae/go-depcheck-sample/src/.*/infrastructure.*$"
+    to:
+      - "^github.com/hidechae/go-depcheck-sample/src/.*/presentation.*$"

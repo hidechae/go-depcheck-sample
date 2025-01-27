@@ -1,0 +1,23 @@
+name: depcheck
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "*"
+jobs:
+  depcheck:
+    name: Run depcheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up Go
+        id: setup-go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ~1.23.0
+      - name: depcheck
+        run: |
+          make depcheck
